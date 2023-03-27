@@ -3,6 +3,8 @@ import ffmpeg
 import csv
 import pandas as pd
 
+#this code (using .scene.txt files found by make_scene_files.py) trims all the scenes 
+
 def trim(in_file, out_file, start, end):
     print(in_file)
     if os.path.exists(out_file):
@@ -53,6 +55,7 @@ for path in os.listdir("/srv/home/ahmadi/gitrepos/video-ir/scene_txt"):
         path = path[:13]
         for i in all_scenes:
             
+            #the path to the directory of videos (that are used to make .scene.txt files previously)
             path3 = os.path.join("/raid/datasets/msr-vtt/Test2", path)
             save_path = "/srv/home/ahmadi/gitrepos/video-ir/scene_mp4/"+ str(i[0]) + "-" + str(i[1]) + "-" +  path
 
