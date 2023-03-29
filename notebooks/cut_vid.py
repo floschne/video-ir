@@ -70,7 +70,11 @@ for path in os.listdir("/srv/home/ahmadi/gitrepos/video-ir/scene_txt"):
 
             print(temp2)
 
-            trim(path3, save_path , i[0], i[1])
+            #check if the number of frames is more than 10
+            if (i[1]-i[0]) > 9:
+
+                trim(path3, save_path , i[0], i[1])
+
 
     print("*******************************************************************************************************************")
     print("*******************************************************************************************************************")
