@@ -1,6 +1,7 @@
 import os 
 
 #this code, makes all .scene.txt files of directory bellow
+
 os.chdir("/srv/home/ahmadi/gitrepos/video-ir/notebooks/TransNetV2/inference")
 
 for path in os.listdir("/raid/datasets/msr-vtt/Test2"):
