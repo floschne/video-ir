@@ -26,15 +26,6 @@ def retrieval(text):
     return ret_arr
 
 
-# with gr.Interface(fn=retrieval,
-#                   inputs=gr.inputs.Textbox(label="Text", lines=2, placeholder="Text Here..."),
-#                   outputs=[gr.outputs.Video(label="Output 1"),
-#                            gr.outputs.Video(label="Output 2"),
-#                            gr.outputs.Video(label="Output 3"),
-#                            gr.outputs.Video(label="Output 4")]) as iface:
-#     iface.launch()
-
-
 with gr.Interface(fn=retrieval,
                   inputs=gr.inputs.Textbox(label="Text", lines=2, placeholder="Text Here..."),
                   outputs=[gr.outputs.Textbox(label="Output 1"),
