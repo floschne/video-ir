@@ -1,10 +1,5 @@
 from autofaiss import build_index
 
-import numpy as np
-
-
-
-
 embeddings_path = "/raid/datasets/msr-vtt/scene_embeddings_14"
 index_folder_path = "/raid/datasets/msr-vtt/index_folder_14"
 
