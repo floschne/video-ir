@@ -7,6 +7,8 @@ import glob
 from torch.nn.utils.rnn import pack_sequence, pad_packed_sequence
 import numpy as np
 import math
+import make_scenes_files
+
 
 class VideoDataset(torch.utils.data.Dataset):
     def __init__(self, video_dir):
@@ -15,24 +17,22 @@ class VideoDataset(torch.utils.data.Dataset):
     def __getitem__(self, idx):
         video_path = self.video_paths[idx]
         video, _, info = torchvision.datasets.video_utils.read_video(video_path, pts_unit="sec")
-        return video
+        return video, video_path
 
     def __len__(self):
         return len(self.video_paths)
-
-        return video
+    
 
 def collate_fn(batch):
     # Sort the batch by video length
-    batch.sort(key=lambda x: x.shape[0], reverse=True)
+    batch.sort(key=lambda x: x[0].shape[0], reverse=True)
 
-    # Create a list of tensors representing each video in the batch
-    videos = []
-    for video in batch:
-        if isinstance(video, np.ndarray):
-            videos.append(torch.from_numpy(video))
-        else:
-            videos.append(video)
+    # Extract the videos and their file paths from the tuples
+    videos = [x[0] for x in batch]
+    video_paths = [x[1] for x in batch]
+
+    # Convert numpy arrays to PyTorch tensors
+    videos = [torch.from_numpy(video) if isinstance(video, np.ndarray) else video for video in videos]
 
     # Pack the videos into a single PackedSequence
     packed_videos = pack_sequence(videos)
@@ -40,26 +40,31 @@ def collate_fn(batch):
     # Pad the packed sequence
     padded_videos, _ = pad_packed_sequence(packed_videos, batch_first=True)
 
-    return padded_videos
+    return padded_videos, video_paths
 
 
+p = "/raid/datasets/msr-vtt/TestVideo"
 
-
-dataset = VideoDataset(video_dir="/raid/datasets/msr-vtt/Test2")
-first_data = dataset[0]
+dataset = VideoDataset(video_dir=p)
+# first_data = dataset[0]
 # print(first_data)
 
 dataloader = data.DataLoader(dataset, batch_size=64, shuffle=False, collate_fn=collate_fn)
 
 
+
+# dataiter = iter(dataloader)
+# data1 = dataiter.next()
+# print(data1)
+
 total_samples = len(dataset)
-n_iterations = math.ceil(total_samples/4)
+n_iterations = math.ceil(total_samples/64)
 
-# print(total_samples, n_iterations)
+print(total_samples, n_iterations)
 
-for i, input in enumerate(dataloader):
-    if (i+1) % 2 == 0:
-        print(f' epoch = 1 , step {i+1}/{n_iterations}, inputs {input.shape}')
+batch_size=64
 
-
+for i, batch in enumerate(dataloader):
+    print(batch[1])
+    # make_scenes_files.scene_txt(batch[1], p)
 
