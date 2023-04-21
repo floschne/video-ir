@@ -1,0 +1,4 @@
+/raid/datasets/msr-vtt/TrainValVideo/video710.mp4
+/raid/datasets/msr-vtt/TrainValVideo/video5992.mp4
+/raid/datasets/msr-vtt/TrainValVideo/video5009.mp4
+/raid/datasets/msr-vtt/TrainValVideo/video1975.mp4
